@@ -6,11 +6,16 @@ import java.util.List;
 import java.util.Random;
 
 public abstract class WheelOfFurtune extends Game{
-    protected List<String> phList;
-    protected String phrase;
-    protected StringBuilder secret;
-    protected int score = 26;
-    //protected int time = 10;
+    protected static List<String> phList;
+    protected static String phrase;
+    String filename;
+    protected static StringBuilder secret;
+    protected static int score = 26;
+
+    public WheelOfFurtune(String filename){
+       phList = readPhrases(filename);
+    }
+
     public List<String> readPhrases(String filename){
         List<String> phraseList= new ArrayList<String>();
         // Get the phrase from a file of phrases
@@ -22,15 +27,15 @@ public abstract class WheelOfFurtune extends Game{
         this.phList = phraseList;
         return phraseList;
     }
-    public String randomPhrase(){
+    public static String randomPhrase(){
         Random rand = new Random();
         int r = rand.nextInt(phList.size()); // gets 0, 1, or 2
-        this.phrase = phList.get(r);
+        phrase = phList.get(r);
         phList.remove(r) ;
         return phrase;
     }
 
-    public String getHiddenPhrase(){
+    public static String getHiddenPhrase(){
         String Hidden = "";
         for (int i = 0; i < phrase.length(); i++ ){
             char ch = phrase.charAt(i);
