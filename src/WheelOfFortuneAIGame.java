@@ -60,6 +60,7 @@ public class WheelOfFortuneAIGame extends WheelOfFurtune {
         List<WheelOfFortunePlayer> players = new ArrayList<>();
         players.add(new DefaultAIPlayer());
         players.add(new CleverAIPlayer());
+        players.add(new WordAIPlayer());
         WheelOfFortuneAIGame game3 = new WheelOfFortuneAIGame("phrases.txt", players);
         AllGameRecord record = game3.playAll();
         System.out.println(record);
