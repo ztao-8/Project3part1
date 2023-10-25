@@ -8,15 +8,16 @@ import java.util.Random;
 public abstract class WheelOfFurtune extends Game{
     protected static List<String> phList;
     protected static String phrase;
-    String filename;
+    protected String filename;
     protected static StringBuilder secret;
     protected static int score = 26;
 
     public WheelOfFurtune(String filename){
-       phList = readPhrases(filename);
+        this.filename = filename;
+        readPhrases(filename);
     }
 
-    public List<String> readPhrases(String filename){
+    public void readPhrases(String filename){
         List<String> phraseList= new ArrayList<String>();
         // Get the phrase from a file of phrases
         try {
@@ -24,26 +25,24 @@ public abstract class WheelOfFurtune extends Game{
         } catch (IOException e) {
             System.out.println(e);
         }
-        this.phList = phraseList;
-        return phraseList;
+        phList = phraseList;
     }
-    public static String randomPhrase(){
+    public void randomPhrase(){
         Random rand = new Random();
         int r = rand.nextInt(phList.size()); // gets 0, 1, or 2
         phrase = phList.get(r);
         phList.remove(r) ;
-        return phrase;
     }
 
-    public static String getHiddenPhrase(){
-        String Hidden = "";
+    public StringBuilder getHiddenPhrase(){
+        StringBuilder Hidden = new StringBuilder();
         for (int i = 0; i < phrase.length(); i++ ){
             char ch = phrase.charAt(i);
             if (Character.isLetter(ch)){
-                Hidden += "*";
+                Hidden.append("*");
             }
             else{
-                Hidden += ch;
+                Hidden.append(ch);
             }
         }
         return Hidden;
