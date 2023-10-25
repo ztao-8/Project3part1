@@ -1,9 +1,9 @@
 import java.util.Scanner;
 
-public class WheelOfFortuneUserGame extends WheelOfFurtune implements WheelOfFortunePlayer{
+public class WheelOfFortuneUserGame extends WheelOfFurtune{
     private String previousGuess = "";
     public WheelOfFortuneUserGame(String filename){
-        phList = readPhrases(filename);
+        super(filename);
     }
     @Override
     public char getGuess() {
@@ -17,7 +17,6 @@ public class WheelOfFortuneUserGame extends WheelOfFurtune implements WheelOfFor
         return guess;
     }
 
-    @Override
     public char nextGuess() {
         char guess = getGuess();
         while (this.previousGuess.indexOf( Character.toLowerCase(guess)) != -1){
@@ -28,8 +27,7 @@ public class WheelOfFortuneUserGame extends WheelOfFurtune implements WheelOfFor
         return guess;
     }
 
-    @Override
-    public String playerId() {
+    private String getId(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Type your id:");
         String id = scanner.next();
@@ -37,18 +35,12 @@ public class WheelOfFortuneUserGame extends WheelOfFurtune implements WheelOfFor
     }
 
     @Override
-    public void reset() {
-        phrase = randomPhrase();
-        secret = new StringBuilder(getHiddenPhrase());
-        score = 26;
-        System.out.println(secret);
-    }
-
-    @Override
     public GameRecord play() {
+        String id = getId();
         score = 26;
-        String id = playerId();
-        reset();
+        randomPhrase();
+        secret = new StringBuilder(getHiddenPhrase());
+        System.out.println(secret);
         while (!secret.toString().equals(phrase)){
             char guess = nextGuess();
             if (processGuess(guess)){
