@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class WheelOfFortuneAIGame extends WheelOfFurtune {
@@ -56,9 +57,15 @@ public class WheelOfFortuneAIGame extends WheelOfFurtune {
         return player.nextGuess();
     };
     public static void main(String[] args) {
-        WheelOfFortuneAIGame game = new WheelOfFortuneAIGame("phrases.txt");
-        AllGameRecord record = game.playAll();
+        List<WheelOfFortunePlayer> players = new ArrayList<>();
+        players.add(new DefaultAIPlayer());
+        players.add(new CleverAIPlayer());
+        WheelOfFortuneAIGame game3 = new WheelOfFortuneAIGame("phrases.txt", players);
+        AllGameRecord record = game3.playAll();
         System.out.println(record);
+        List highList = record.highGameList(3);
+        System.out.println(highList);
+
     }
 
 
