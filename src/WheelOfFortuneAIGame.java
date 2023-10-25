@@ -2,40 +2,32 @@ import java.util.List;
 
 public class WheelOfFortuneAIGame extends WheelOfFurtune {
     private int index = 0;
+    private int playerind = 0;
     private List<WheelOfFortunePlayer> players;
-    private StringBuilder guesslist = new StringBuilder("abcdefghijklmnopqrstuvwxyz");
+    private WheelOfFortunePlayer player;
+
+
     public WheelOfFortuneAIGame(String filename){
-        phList = readPhrases(filename);
+        super(filename);
         this.players = List.of(new DefaultAIPlayer());
     }
     public WheelOfFortuneAIGame(String filename,WheelOfFortunePlayer player) {
-        phList = readPhrases(filename);
+        super(filename);
         this.players = List.of(player);
     }
     public WheelOfFortuneAIGame(String filename, List<WheelOfFortunePlayer> players) {
-        phList = readPhrases(filename);
+        super(filename);
         this.players = players;
     }
-    @Override
-    public AllGameRecord playAll(){
-        AllGameRecord allrecords  = new AllGameRecord();
-        while (playNext()){
-            phrase = randomPhrase();
-            while (index < players.size()) {
-                GameRecord record = play();
-                index ++;
-                allrecords.add(record);
-            }
-            index = 0;
-        }
-        return allrecords;
-    }
+
     public GameRecord play(){
-        WheelOfFortunePlayer player  = players.get(index);
+        randomPhrase();
+        getHiddenPhrase();
+        System.out.println(secret);
         player.reset();
         String id = player.playerId();
         while (!secret.toString().equals(phrase)){
-            char guess = player.nextGuess();
+            char guess = getGuess();
             if (!processGuess(guess)){
                 score -= 1;
                 System.out.println("There is no " + guess + " in the phrase.");
@@ -48,14 +40,27 @@ public class WheelOfFortuneAIGame extends WheelOfFurtune {
         return newrecord;
     }
     public boolean playNext(){
-        if (phList.isEmpty()){
-            return false;
+        if (playerind < players.size()){
+            player = players.get(playerind);
+            if (index < phList.size()){
+                index ++;
+                return true;
+            }
+            playerind++;
+            index = 0;
+            phList = readPhrases(filename);
+            return playNext();
         }
-        else{return true;}
+        return false;
     };
     public char getGuess(){
-        return guesslist.charAt(0);
+        return player.nextGuess();
     };
+    public static void main(String[] args) {
+        WheelOfFortuneAIGame game = new WheelOfFortuneAIGame("phrases.txt");
+        AllGameRecord record = game.playAll();
+        System.out.println(record);
+    }
 
 
 }
