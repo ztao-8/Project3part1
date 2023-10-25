@@ -1,7 +1,6 @@
 import java.util.List;
 
 public class WheelOfFortuneAIGame extends WheelOfFurtune {
-    private int index = 0;
     private int playerind = 0;
     private List<WheelOfFortunePlayer> players;
     private WheelOfFortunePlayer player;
@@ -22,14 +21,16 @@ public class WheelOfFortuneAIGame extends WheelOfFurtune {
 
     public GameRecord play(){
         randomPhrase();
-        getHiddenPhrase();
+        secret = getHiddenPhrase();
         System.out.println(secret);
+        score = 26;
         player.reset();
         String id = player.playerId();
         while (!secret.toString().equals(phrase)){
             char guess = getGuess();
             if (!processGuess(guess)){
                 score -= 1;
+                System.out.println(score);
                 System.out.println("There is no " + guess + " in the phrase.");
             }
             else{
@@ -42,13 +43,11 @@ public class WheelOfFortuneAIGame extends WheelOfFurtune {
     public boolean playNext(){
         if (playerind < players.size()){
             player = players.get(playerind);
-            if (index < phList.size()){
-                index ++;
+            if (!phList.isEmpty()){
                 return true;
             }
             playerind++;
-            index = 0;
-            phList = readPhrases(filename);
+            readPhrases(filename);
             return playNext();
         }
         return false;
