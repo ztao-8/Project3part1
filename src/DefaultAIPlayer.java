@@ -2,7 +2,7 @@ import java.util.Random;
 
 public class DefaultAIPlayer implements WheelOfFortunePlayer{
     private StringBuilder guesslist = new StringBuilder("abcdefghijklmnopqrstuvwxyz");
-    protected int score;
+
 
 
     @Override
@@ -22,7 +22,6 @@ public class DefaultAIPlayer implements WheelOfFortunePlayer{
 
     @Override
     public void reset() {
-        score = 26;
         guesslist =  new StringBuilder("abcdefghijklmnopqrstuvwxyz");
     }
 }
